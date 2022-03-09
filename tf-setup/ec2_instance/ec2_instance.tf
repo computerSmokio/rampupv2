@@ -6,6 +6,6 @@ resource "aws_instance" "ec2_instances" {
     subnet_id              = each.value.subnet_id
     iam_instance_profile = each.value.instance_profile
     key_name               = var.key_name
-    user_data_base64 = each.value.user_data64
+    user_data = each.value.user_data
     tags                   = each.value.tags
 }

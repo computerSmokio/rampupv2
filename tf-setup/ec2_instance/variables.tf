@@ -5,7 +5,7 @@ variable "instances" {
         security_groups = list(string)
         subnet_id = string
         instance_profile = string
-        user_data64 = string
+        user_data = string
         tags = map(string)
     }))
 }
