@@ -7,6 +7,7 @@ cat <<EOF | sudo tee /etc/docker/daemon.json
   "exec-opts": ["native.cgroupdriver=systemd"]
 }
 EOF
+usermod -aG docker ec2-user
 systemctl start docker
 systemctl enable docker
 mkdir -p /proc/sys/net/bridge

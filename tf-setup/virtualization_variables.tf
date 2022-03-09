@@ -20,7 +20,8 @@ locals {
             security_groups = [module.security_groups.security_groups["master-node-sg"]]
             instance_profile = ""
             user_data = file("/home/mavargas/rampup-part-II/scripts-user-data/master_node.bash")
-            tags = {"Name" = "Master Node"}
+            tags = {"Name" = "Master Node",
+            "kubernetes.io/cluster/rampupCluster" = "shared"}
         },
         {
             ami = "ami-06078a297452ba5aa"
@@ -29,7 +30,8 @@ locals {
             security_groups = [module.security_groups.security_groups["worker-node-sg"]]
             instance_profile = ""
             user_data = file("/home/mavargas/rampup-part-II/scripts-user-data/worker_node.bash")
-            tags = {"Name" = "Worker Node"}
+            tags = {"Name" = "Worker Node",
+            "kubernetes.io/cluster/rampupCluster" = "shared"}
         }
     ]
 }
