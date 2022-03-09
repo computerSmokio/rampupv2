@@ -78,8 +78,15 @@ locals {
                 from_port         = 6443
                 to_port           = 6443
                 protocol          = "tcp"
-                cidr_blocks       = ["10.0.4.0/24"]
-            } ]
+                cidr_blocks       = ["10.0.3.0/24"]
+            },
+            {
+                description       = "Allow healthchecks"
+                from_port         = 10248
+                to_port           = 10248
+                protocol          = "tcp"
+                cidr_blocks       = ["10.0.0.0/16"]
+            } ] 
             tags = {"Name" = "master-node-sg"}
         },
         {
@@ -113,6 +120,20 @@ locals {
                 to_port     = var.port_db
                 protocol    = "tcp"
                 cidr_blocks = ["10.0.0.0/16"]
+            },
+                        {
+                description       = "Allow metrics"
+                from_port         = 10250
+                to_port           = 10250
+                protocol          = "tcp"
+                cidr_blocks       = ["10.0.0.0/16"]
+            },
+            {
+                description       = "Allow metrics"
+                from_port         = 10255
+                to_port           = 10255
+                protocol          = "tcp"
+                cidr_blocks       = ["10.0.0.0/16"]
             } ]
             tags = {"Name" = "worker-node-sg"}
         },
