@@ -1,6 +1,7 @@
 resource "aws_vpc" "public_private_vpc" {
   cidr_block = "10.0.0.0/16"
-  tags       = { Name = "public_private_vpc" }
+  tags       = { Name = "public_private_vpc",
+    "kubernetes.io/cluster/rampupCluster" = "shared" }
 }
 
 module "route_table" {

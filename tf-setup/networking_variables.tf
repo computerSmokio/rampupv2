@@ -134,7 +134,14 @@ locals {
                 to_port           = 10255
                 protocol          = "tcp"
                 cidr_blocks       = ["10.0.0.0/16"]
-            } ]
+            },
+            {
+                description       = "Allow webhook alb controller"
+                from_port         = 9443
+                to_port           = 9443
+                protocol          = "tcp"
+                cidr_blocks       = ["10.0.3.0/24"]
+            } ] 
             tags = {"Name" = "worker-node-sg"}
         },
         {
