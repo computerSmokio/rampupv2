@@ -133,6 +133,13 @@ locals {
                 to_port           = 22
                 protocol          = "tcp"
                 cidr_blocks       = ["0.0.0.0/0"]
+            },
+            {
+                description       = "Allow jenkins connection"
+                from_port         = 8080
+                to_port           = 8080
+                protocol          = "tcp"
+                cidr_blocks       = ["0.0.0.0/0"]
             }]
             tags = {"Name" = "bastion-host-sg"}
         }
