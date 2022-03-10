@@ -86,6 +86,20 @@ locals {
                 to_port           = 10248
                 protocol          = "tcp"
                 cidr_blocks       = ["10.0.0.0/16"]
+            },
+            {
+                description       = "Allow https calls"
+                from_port         = 443
+                to_port           = 443
+                protocol          = "tcp"
+                cidr_blocks       = ["0.0.0.0/0"]
+            },
+            {
+                description       = "Allow internal dns calls"
+                from_port         = 53
+                to_port           = 53
+                protocol          = "udp"
+                cidr_blocks       = ["0.0.0.0/0"]
             } ] 
             tags = {"Name" = "master-node-sg"}
         },
@@ -141,7 +155,21 @@ locals {
                 to_port           = 9443
                 protocol          = "tcp"
                 cidr_blocks       = ["10.0.3.0/24"]
-            } ] 
+            },
+            {
+                description       = "Allow https calls"
+                from_port         = 443
+                to_port           = 443
+                protocol          = "tcp"
+                cidr_blocks       = ["0.0.0.0/0"]
+            },
+            {
+                description       = "Allow internal dns calls"
+                from_port         = 53
+                to_port           = 53
+                protocol          = "udp"
+                cidr_blocks       = ["0.0.0.0/0"]
+            }  ] 
             tags = {"Name" = "worker-node-sg"}
         },
         {

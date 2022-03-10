@@ -18,7 +18,7 @@ locals {
             instance_type = "t2.micro"
             subnet_id = module.subnets.subnets.private_subnet[0]
             security_groups = [module.security_groups.security_groups["master-node-sg"]]
-            instance_profile = ""
+            instance_profile = "k8-test-master"
             user_data = file("/home/mavargas/rampup-part-II/scripts-user-data/master_node.bash")
             tags = {"Name" = "Master Node",
             "kubernetes.io/cluster/rampupCluster" = "shared"}
@@ -28,7 +28,7 @@ locals {
             instance_type = "t2.micro"
             subnet_id = module.subnets.subnets.private_subnet[0]
             security_groups = [module.security_groups.security_groups["worker-node-sg"]]
-            instance_profile = ""
+            instance_profile = "k8-test-master"
             user_data = file("/home/mavargas/rampup-part-II/scripts-user-data/worker_node.bash")
             tags = {"Name" = "Worker Node",
             "kubernetes.io/cluster/rampupCluster" = "shared"}
