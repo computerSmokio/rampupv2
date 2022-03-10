@@ -16,7 +16,7 @@ name=Kubernetes
 baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
 enabled=1
 gpgcheck=1
-repo_gpgcheck=1
+repo_gpgcheck=0
 gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 exclude=kubelet kubeadm kubectl
 EOF
@@ -32,3 +32,4 @@ sudo cp -i /etc/kubernetes/admin.conf /home/ec2-user/.kube/config
 sudo chown ec2-user /home/ec2-user/.kube/config
 curl https://raw.githubusercontent.com/computerSmokio/rampupv2/main/kubernetes_related/frontend_deployment.yaml -o /home/ec2-user/frontend_deployment.yaml
 curl https://raw.githubusercontent.com/computerSmokio/rampupv2/main/kubernetes_related/aws_ingress.yaml -o /home/ec2-user/aws_ingress.yaml
+aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 602401143452.dkr.ecr.us-west-2.amazonaws.com
