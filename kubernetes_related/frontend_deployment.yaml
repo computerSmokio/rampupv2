@@ -38,16 +38,16 @@ spec:
         app: frontend-movie-label
     type: ClusterIP
 ---
-apiVersion: networking.k8s.io/v1
 kind: Ingress
-metada:
+apiVersion: networking.k8s.io/v1
+metadata:
   name: frontend-ingress
   namespace: rampup-frontend-ns
 spec:
   rules:
     - host: app.movie-ui.com
-    http:
-      paths:
+      http:
+        paths:
         - path: /
           pathType: Prefix
           backend:
