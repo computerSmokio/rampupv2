@@ -24,7 +24,8 @@ spec:
         name: frontend-movie-container
         port:
         - containerPort: 3030
-        name: frontend-port
+          name: frontend-port
+          targetPort: 3030
 ---
 apiVersion: v1
 kind: Service
@@ -37,3 +38,21 @@ spec:
     selector:
         app: frontend-movie
     type: NodePort
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metada:
+  name: frontend-ingress
+  namespace: rampup-frontend-ns
+spec:
+  rules:
+    - host: app.movie-ui.com
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: frontend-svc
+              port:
+                - number: 3030
