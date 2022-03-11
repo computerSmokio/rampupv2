@@ -22,14 +22,15 @@ exclude=kubelet kubeadm kubectl
 EOF
 yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 mkdir /etc/systemd/system/kubelet.service.d
-printf '[Service]\nEnvironment="KUBELET_EXTRA_ARGS=--node-ip=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)"' | tee /etc/systemd/system/kubelet.service.d/20-aws.conf
+cat <<EOF | tee /etc/systemd/system/kubelet.service.d/20-aws.conf
+[Service]
+Environment="KUBELET_EXTRA_ARGS=--node-ip=$(hostname -I| awk '{print $1}')"
+EOF
 mkdir -p /proc/sys/net/bridge
 echo "1"> /proc/sys/net/bridge/bridge-nf-call-iptables
-kubeadm init --token-ttl 0 --ignore-preflight-errors=NumCPU --ignore-preflight-errors=Mem
+kubeadm init --token-ttl 0 --ignore-preflight-errors=NumCPU --ignore-preflight-errors=Mem --pod-network-cidr=10.244.0.0/16
 systemctl enable kubelet
 mkdir -p /home/ec2-user/.kube
 sudo cp -i /etc/kubernetes/admin.conf /home/ec2-user/.kube/config
 sudo chown ec2-user /home/ec2-user/.kube/config
 curl https://raw.githubusercontent.com/computerSmokio/rampupv2/main/kubernetes_related/frontend_deployment.yaml -o /home/ec2-user/frontend_deployment.yaml
-curl https://raw.githubusercontent.com/computerSmokio/rampupv2/main/kubernetes_related/aws_ingress.yaml -o /home/ec2-user/aws_ingress.yaml
-aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 602401143452.dkr.ecr.us-west-2.amazonaws.com
