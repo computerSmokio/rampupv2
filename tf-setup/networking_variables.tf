@@ -71,7 +71,7 @@ locals {
                 from_port         = 22
                 to_port           = 22
                 protocol          = "tcp"
-                cidr_blocks       = ["0.0.0.0/0"]
+                cidr_blocks       = ["10.0.0.0/16"]
             },
             {
                 description       = "Allow kubeadm"
@@ -81,13 +81,6 @@ locals {
                 cidr_blocks       = ["10.0.3.0/24"]
             },
             {
-                description       = "Allow healthchecks"
-                from_port         = 10248
-                to_port           = 10248
-                protocol          = "tcp"
-                cidr_blocks       = ["10.0.0.0/16"]
-            },
-            {
                 description       = "Allow https calls"
                 from_port         = 443
                 to_port           = 443
@@ -95,12 +88,13 @@ locals {
                 cidr_blocks       = ["0.0.0.0/0"]
             },
             {
-                description       = "Allow internal dns calls"
-                from_port         = 53
-                to_port           = 53
-                protocol          = "udp"
+                description       = "Allow https calls"
+                from_port         = 80
+                to_port           = 80
+                protocol          = "tcp"
                 cidr_blocks       = ["0.0.0.0/0"]
-            } ] 
+            }
+            ] 
             tags = {"Name" = "master-node-sg"}
         },
         {
@@ -119,7 +113,7 @@ locals {
                 from_port         = 22
                 to_port           = 22
                 protocol          = "tcp"
-                cidr_blocks       = ["0.0.0.0/0"]
+                cidr_blocks       = ["10.0.0.0/16"]
             },
             {
                 description       = "Allow kubeadm"
@@ -133,26 +127,19 @@ locals {
                 from_port   = var.port_db
                 to_port     = var.port_db
                 protocol    = "tcp"
-                cidr_blocks = ["10.0.0.0/16"]
+                cidr_blocks = ["10.0.3.0/24"]
             },
-                        {
+            {
                 description       = "Allow metrics"
                 from_port         = 10250
                 to_port           = 10250
                 protocol          = "tcp"
-                cidr_blocks       = ["10.0.0.0/16"]
+                cidr_blocks       = ["10.0.3.0/24"]
             },
             {
                 description       = "Allow metrics"
                 from_port         = 10255
                 to_port           = 10255
-                protocol          = "tcp"
-                cidr_blocks       = ["10.0.0.0/16"]
-            },
-            {
-                description       = "Allow webhook alb controller"
-                from_port         = 9443
-                to_port           = 9443
                 protocol          = "tcp"
                 cidr_blocks       = ["10.0.3.0/24"]
             },
@@ -164,12 +151,13 @@ locals {
                 cidr_blocks       = ["0.0.0.0/0"]
             },
             {
-                description       = "Allow internal dns calls"
-                from_port         = 53
-                to_port           = 53
-                protocol          = "udp"
+                description       = "Allow http"
+                from_port         = 80
+                to_port           = 80
+                protocol          = "tcp"
                 cidr_blocks       = ["0.0.0.0/0"]
-            }  ] 
+            }
+            ] 
             tags = {"Name" = "worker-node-sg"}
         },
         {
@@ -196,8 +184,30 @@ locals {
                 to_port           = 8080
                 protocol          = "tcp"
                 cidr_blocks       = ["0.0.0.0/0"]
-            }]
+            }
+            ]
             tags = {"Name" = "bastion-host-sg"}
+        },
+        {
+            name = "mysql-sg"
+            description = "bastion host security group"
+            egress = [ {
+                description = "Allow any egress"
+                from_port   = 0
+                to_port     = 0
+                protocol    = -1
+                cidr_blocks = ["0.0.0.0/0"]
+            } ]
+            ingress = [ 
+            {
+                description       = "Allow db query"
+                from_port         = var.port_db
+                to_port           = var.port_db
+                protocol          = "tcp"
+                cidr_blocks       = ["10.0.3.0/24"]
+            }
+            ]
+            tags = {"Name" = "mysql-db-sg"}
         }
     ]
     private_subnets = [ 

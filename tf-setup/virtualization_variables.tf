@@ -1,7 +1,12 @@
 variable "key_name" {
     type = string
 }
-
+variable "db_username" {
+  type = string
+}
+variable "db_password" {
+  type = string
+}
 locals {
     ec2_instances = [
         {
@@ -20,8 +25,8 @@ locals {
             security_groups = [module.security_groups.security_groups["master-node-sg"]]
             instance_profile = "k8-test-master"
             user_data = file("/home/mavargas/rampup-part-II/scripts-user-data/master_node.bash")
-            tags = {"Name" = "Master Node",
-            "kubernetes.io/cluster/rampupCluster" = "shared"}
+            tags = {"Name" = "Master Node"
+            }
         },
         {
             ami = "ami-06078a297452ba5aa"
@@ -30,8 +35,22 @@ locals {
             security_groups = [module.security_groups.security_groups["worker-node-sg"]]
             instance_profile = "k8-test-master"
             user_data = file("/home/mavargas/rampup-part-II/scripts-user-data/worker_node.bash")
-            tags = {"Name" = "Worker Node",
-            "kubernetes.io/cluster/rampupCluster" = "shared"}
+            tags = {"Name" = "Worker Node"
+            }
         }
     ]
+    db_description = {
+        db_subnets = ["10.0.3.0/24","10.0.4.0/24"]
+        db_identifier = "mysql-db"
+        storage_type = "gp2"
+        instance_type = "db.t2.micro"
+        port_db = var.port_db
+        db_name = "movie_db"
+        username = var.db_username
+        password = var.db_password
+        availability_zone = "${var.region}a"
+        security_groups = [module.security_groups.security_groups["mysql-sg"]]
+        is_multi_az = false
+    }
+
 }

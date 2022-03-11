@@ -7,3 +7,8 @@ module "ec2_instances" {
       aws_route_table_association.publicAs
     ]
 }
+
+module "mysql_db" {
+  source = "./rds_db_mysql"
+  db_description = local.db_description
+}
