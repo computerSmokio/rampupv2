@@ -12,11 +12,11 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: frontend-movie-lable
+      app: frontend-movie-label
   template:
     metadata:
       labels:
-        app: frontend-movie-lable
+        app: frontend-movie-label
     spec:
       containers:
       - image: 419466290453.dkr.ecr.sa-east-1.amazonaws.com/rampup-frontend:latest
@@ -35,8 +35,8 @@ spec:
     ports:
     - port: 3030
     selector:
-        app: frontend-movie
-    type: NodePort
+        app: frontend-movie-label
+    type: clusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
