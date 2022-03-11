@@ -40,7 +40,7 @@ locals {
         }
     ]
     db_description = {
-        db_subnets = ["10.0.3.0/24","10.0.4.0/24"]
+        db_subnets = module.subnets.subnets.private_subnet
         db_identifier = "mysql-db"
         storage_type = "gp2"
         instance_type = "db.t2.micro"
