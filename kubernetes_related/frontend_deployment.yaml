@@ -45,12 +45,13 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   rules:
   - host: app.movie-ui.com
     http:
       paths:
-        - path: "/"
-          pathType: Prefix
+        - pathType: Prefix
+          path: "/"
           backend:
             service:
               name: frontend-svc
