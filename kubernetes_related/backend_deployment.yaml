@@ -1,13 +1,8 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: rampup-backend-ns
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-movie-deployment
-  namespace: rampup-backend-ns
+  namespace: rampup-ns
 spec:
   replicas: 2
   selector:
@@ -30,7 +25,7 @@ apiVersion: v1
 kind: Service
 metadata:
     name: backend-svc
-    namespace: rampup-backend-ns
+    namespace: rampup-ns
 spec:
     ports:
     - port: 3000
