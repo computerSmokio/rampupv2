@@ -36,22 +36,23 @@ spec:
     - port: 3030
     selector:
         app: frontend-movie-label
-    type: ClusterIP
 ---
 kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: frontend-ingress
   namespace: rampup-frontend-ns
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: app.movie-ui.com
-      http:
-        paths:
-        - path: /
+  - host: app.movie-ui.com
+    http:
+      paths:
+        - path: "/"
           pathType: Prefix
           backend:
             service:
               name: frontend-svc
               port:
-                - number: 3030
+                number: 3030

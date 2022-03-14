@@ -1,7 +1,6 @@
 resource "aws_vpc" "public_private_vpc" {
   cidr_block = "10.0.0.0/16"
-  tags       = { Name = "public_private_vpc",
-    "kubernetes.io/cluster/rampupCluster" = "shared" }
+  tags       = { Name = "public_private_vpc"}
 }
 
 module "route_table" {
@@ -21,6 +20,13 @@ module "security_groups" {
     source = "./security_groups"
     security_groups = local.security_groups
     vpc = aws_vpc.public_private_vpc.id
+}
+
+module "network_load_balancer" {
+  source = "./load_balancer"
+  loadb_description = local.loadb_description
+  target_description = local.target_group
+  vpc_id = aws_vpc.public_private_vpc.id
 }
 
 resource "aws_internet_gateway" "internet_gateway" {

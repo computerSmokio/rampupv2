@@ -232,4 +232,23 @@ locals {
             attach_public = false
         } 
     ]
+    loadb_description = {
+        name = "cluster-lb"
+        isInternal = false
+        type = "network"
+        subnets = [module.subnets.subnets.public_subnet[0]]
+        tags = { "Name" = "Cluster Load Balancer"}
+    }
+    target_group = {
+        name = "cluster-workers-target-group"
+        port = 30100
+        protocol = "TCP"
+        type = "ip"
+        targets = [
+            {
+                ip = module.ec2_instances.ec2_instances["Worker Node"].private_ip
+                port = 30100
+            }
+        ]
+    }
 }
