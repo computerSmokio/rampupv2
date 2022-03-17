@@ -8,7 +8,7 @@ module "ec2_instances" {
     ]
 }
 
-module "mysql_db" {
-  source = "./rds_db_mysql"
-  db_description = local.db_description
-}
+#module "mysql_db" {
+#  source = "./rds_db_mysql"
+#  db_description = local.db_description
+#}
