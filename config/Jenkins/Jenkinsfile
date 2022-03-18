@@ -1,0 +1,38 @@
+pipeline{
+    agent any
+    environment{
+        db_port=credentials('db_port')
+        db_entrypoint=credentials('db_entrypoint')
+        db_user=credentials('db_user')
+        db_pass=credentials('db_pass')
+        db_name=credentials('db_name')
+        backend_port=credentials('backend_port')
+    }
+    stages{
+        stage('GitCheckout & deploy infra') {
+            steps{
+                checkout scm
+                script{
+                    sh 'terraform apply -auto-approve'
+                    withCredentials([aws(credentialsId: 'aws_credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                        master_node_ip  = sh(
+                            script: "aws ec2 describe-instances --filter Name=instance.group-name,Values=master-node-sg --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text",
+                            returnStdout: true)
+                        worker_node_ip  = sh(
+                            script: "aws ec2 describe-instances --filter Name=instance.group-name,Values=worker-node-sg --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text",
+                            returnStdout: true)
+                    }
+                    withCredentials([file(credentialsId:'ssh_keypair', variable:'ssh_key')]){
+                        sh "knife bootstrap $master_node_ip -U ec2-user --sudo -i $ssh_key -N master-node"
+                        sh "knife bootstrap $worker_node_ip -U ec2-user --sudo -i $ssh_key -N worker-node"
+                        sh "ssh -i $ssh_key ec2-user@$master_node_ip"
+                        join_command  = sh(
+                            script: "ssh -i $ssh_key ec2-user@$master_node_ip kubeadm token create --print-join-command --ttl 1m",
+                            returnStdout: true)
+                        sh "ssh -i $ssh_key ec2-user@$worker_node_ip sudo $join_command"
+                    }
+                }
+            }
+        }
+    }
+}
