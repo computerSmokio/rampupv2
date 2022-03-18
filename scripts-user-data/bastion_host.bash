@@ -30,6 +30,9 @@ sudo chef-server-ctl user-create chefadmin chef admin none@none.com 'abcdefg' --
 sudo chef-server-ctl org-create rampup 'rampup_org' --association_user chefadmin --filename /home/ec2-user/.ssh/rampuporg-validator.pem
 curl https://artifactory-internal.ps.chef.co/artifactory/omnibus-stable-local/com/getchef/chef-workstation/22.2.807/amazon/2/chef-workstation-22.2.807-1.el7.x86_64.rpm -o /tmp/chef-workstation.rpm
 rpm -Uvh /tmp/chef-workstation.rpm
+cd /home/ec2-user
+chef generate repo chef-repo
+export COOKBOOKS_DIR="/home/ec2-user/chef-repo"
 curl 
 echo 'eval "$(chef shell-init bash)"' >> ~/.bash_profile
 echo 'export PATH="/opt/chef-workstation/embedded/bin:$PATH"' >> ~/.configuration_file
