@@ -33,6 +33,7 @@ rpm -Uvh /tmp/chef-workstation.rpm
 cd /home/ec2-user
 chef generate repo chef-repo
 export COOKBOOKS_DIR="/home/ec2-user/chef-repo"
-curl 
+curl https://raw.githubusercontent.com/computerSmokio/rampupv2/main/config/config.rb -o /root/.chef/config.rb
+
 echo 'eval "$(chef shell-init bash)"' >> ~/.bash_profile
 echo 'export PATH="/opt/chef-workstation/embedded/bin:$PATH"' >> ~/.configuration_file
