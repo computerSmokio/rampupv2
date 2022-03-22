@@ -1,20 +1,19 @@
+    //environment{
+    //    db_port=credentials('db_port')
+    //    db_entrypoint=credentials('db_entrypoint')
+    //    db_user=credentials('db_user')
+    //    db_pass=credentials('db_pass')
+    //    db_name=credentials('db_name')
+    //    backend_port=credentials('backend_port')
+    //}
 pipeline{
     agent any
-    environment{
-        db_port=credentials('db_port')
-        db_entrypoint=credentials('db_entrypoint')
-        db_user=credentials('db_user')
-        db_pass=credentials('db_pass')
-        db_name=credentials('db_name')
-        backend_port=credentials('backend_port')
-    }
     stages{
         stage('GitCheckout & deploy infra') {
             steps{
                 checkout scm
                 script{
-                    sh 'cp -r ./config/chef-repo /home/ec2-user/'
-                    sh 'knife upload -a'
+                    sh 'knife cookbook upload -a'
                     sh 'knife role from file "./config/chef-repo/worker-role-template.json"'
                     sh 'knife role from file "./config/chef-repo/master-role-template.json"'
                     sh 'cd ./tf-setup-services'
