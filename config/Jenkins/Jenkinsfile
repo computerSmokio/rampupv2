@@ -29,6 +29,8 @@ pipeline{
                             script: "ssh -i $ssh_key ec2-user@$master_node_ip kubeadm token create --print-join-command --ttl 1m",
                             returnStdout: true)
                         sh "ssh -i $ssh_key ec2-user@$worker_node_ip sudo $join_command"
+                        sh "ssh -i $ssh_key ec2-user@$worker_node_ip sudo kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml"
+                        sh "ssh -i $ssh_key ec2-user@$worker_node_ip sudo kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/baremetal/1.23/deploy.yaml"
                     }
                 }
             }
