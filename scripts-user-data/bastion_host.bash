@@ -9,7 +9,7 @@ cat <<EOF | sudo tee /etc/yum.repos.d/epelfordaemonize.repo
 baseurl=https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/
 gpgcheck=no
 enabled=yes
-
+EOF
 # Add required dependencies for the jenkins package
 yum install -y java-1.8.0-openjdk
 yum install -y daemonize
@@ -20,7 +20,6 @@ curl https://raw.githubusercontent.com/computerSmokio/rampupv2/main/init.groovy.
 systemctl daemon-reload
 systemctl start jenkins
 systemctl enable jenkins
-EOF
 hostname chef-infra-server
 #Install Chef Infra Server
 curl https://artifactory-internal.ps.chef.co/artifactory/omnibus-stable-local/com/getchef/chef-server/14.13.42/amazon/2/chef-server-core-14.13.42-1.el7.x86_64.rpm -o /tmp/chef-server.rpm
