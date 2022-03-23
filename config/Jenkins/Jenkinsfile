@@ -21,10 +21,10 @@ pipeline{
                         sh 'terraform -chdir=./tf-setup-services init'
                         sh 'terraform -chdir=./tf-setup-services apply -auto-approve'
                         master_node_ip  = sh(
-                            script: "aws ec2 describe-instances --filter Name=instance.group-name,Values=master-node-sg --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text",
+                            script: "aws ec2 describe-instances --region sa-east-1  --filter Name=instance.group-name,Values=master-node-sg --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text",
                             returnStdout: true)
                         worker_node_ip  = sh(
-                            script: "aws ec2 describe-instances --filter Name=instance.group-name,Values=worker-node-sg --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text",
+                            script: "aws ec2 describe-instances --region sa-east-1  --filter Name=instance.group-name,Values=worker-node-sg --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text",
                             returnStdout: true)
                     }
                     withCredentials([file(credentialsId:'ssh_keypair', variable:'ssh_key')]){
