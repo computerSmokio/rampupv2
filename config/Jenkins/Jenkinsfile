@@ -14,11 +14,11 @@ pipeline{
                 checkout scm
                 script{
                     sh 'knife cookbook upload -a'
-                    sh 'knife role from file "./config/chef-repo/worker-role-template.json"'
-                    sh 'knife role from file "./config/chef-repo/master-role-template.json"'
+                    sh 'knife role from file "./../../config/chef-repo/worker-role-template.json"'
+                    sh 'knife role from file "./../../config/chef-repo/master-role-template.json"'
                     sh 'cd ./tf-setup-services'
-                    sh 'terraform apply -auto-approve'
                     withCredentials([aws(credentialsId: 'aws_credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                        sh 'terraform apply -auto-approve'
                         master_node_ip  = sh(
                             script: "aws ec2 describe-instances --filter Name=instance.group-name,Values=master-node-sg --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text",
                             returnStdout: true)
