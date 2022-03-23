@@ -27,8 +27,8 @@ pipeline{
                             returnStdout: true)
                     }
                     withCredentials([file(credentialsId:'ssh_keypair', variable:'ssh_key')]){
-                        sh "knife bootstrap -U ec2-user -i ${ssh_key} --sudo -N master-node -r 'role[master]' $master_node_ip"
-                        sh "knife bootstrap -U ec2-user -i ${ssh_key} --sudo -N worker-node -r 'role[worker]' $worker_node_ip"
+                        sh "knife bootstrap --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N master-node -r 'role[master]' $master_node_ip"
+                        sh "knife bootstrap --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N worker-node -r 'role[worker]' $worker_node_ip"
                         join_command  = sh(
                             script: "ssh -i $ssh_key ec2-user@$master_node_ip kubeadm token create --print-join-command --ttl 1m",
                             returnStdout: true)

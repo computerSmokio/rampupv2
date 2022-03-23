@@ -46,5 +46,4 @@ chown jenkins /var/lib/jenkins/chef-repo
 
 knife ssl fetch
 #Install Terraform
-sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
-sudo yum install -y terraform
+sudo curl https://releases.hashicorp.com/terraform/1.1.7/terraform_1.1.7_linux_amd64.zip -o /tmp/terraform.zip && sudo unzip /tmp/terraform.zip -d /usr/bin
