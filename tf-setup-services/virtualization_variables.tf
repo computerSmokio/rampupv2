@@ -15,9 +15,10 @@ locals {
             subnet_id = data.terraform_remote_state.fundation.outputs.private_subnet_ids[0]
             security_groups = [module.security_groups.security_groups["master-node-sg"]]
             instance_profile = "k8-test-master"
-            user_data = file("./../scripts-user-data/master_node.bash")
-            tags = {"Name" = "Master Node"
-            }
+            user_data = templatefile("./../scripts-user-data/worker_node.bash", {
+                chef_server_ip = data.terraform_remote_state.fundation.outputs.chef_ip
+            })            
+            tags = {"Name" = "Master Node"}
         },
         {
             ami = "ami-06078a297452ba5aa"
@@ -25,9 +26,10 @@ locals {
             subnet_id = data.terraform_remote_state.fundation.outputs.private_subnet_ids[0]
             security_groups = [module.security_groups.security_groups["worker-node-sg"]]
             instance_profile = "k8-test-master"
-            user_data = file("./../scripts-user-data/worker_node.bash")
-            tags = {"Name" = "Worker Node"
-            }
+            user_data = templatefile("./../scripts-user-data/worker_node.bash", {
+                chef_server_ip = data.terraform_remote_state.fundation.outputs.chef_ip
+            })
+            tags = {"Name" = "Worker Node"}
         }
     ]
     db_description = {
