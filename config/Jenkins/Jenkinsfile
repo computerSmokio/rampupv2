@@ -18,8 +18,8 @@ pipeline{
                     sh 'knife role from file "./../../chef-repo/master-role-template.json"'
                     sh 'cd ./tf-setup-services'
                     withCredentials([aws(credentialsId: 'aws_credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                        sh 'terraform init'
-                        sh 'terraform apply -auto-approve'
+                        sh 'terraform -chdir=./tf-setup-services init'
+                        sh 'terraform -chdir=./tf-setup-services apply -auto-approve'
                         master_node_ip  = sh(
                             script: "aws ec2 describe-instances --filter Name=instance.group-name,Values=master-node-sg --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text",
                             returnStdout: true)
