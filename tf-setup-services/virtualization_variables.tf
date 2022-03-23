@@ -25,7 +25,7 @@ locals {
             subnet_id = data.terraform_remote_state.fundation.outputs.private_subnet_ids[0]
             security_groups = [module.security_groups.security_groups["worker-node-sg"]]
             instance_profile = "k8-test-master"
-            user_data = file("./../rampup-part-II/scripts-user-data/worker_node.bash")
+            user_data = file("./../scripts-user-data/worker_node.bash")
             tags = {"Name" = "Worker Node"
             }
         }
