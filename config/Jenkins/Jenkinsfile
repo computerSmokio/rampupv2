@@ -13,9 +13,9 @@ pipeline{
             steps{
                 checkout scm
                 script{
-                    sh 'knife --config /var/lib/jenkins/.chef cookbook upload -a'
-                    sh 'knife --config /var/lib/jenkins/.chef role from file "./config/chef-repo/worker-role-template.json"'
-                    sh 'knife --config /var/lib/jenkins/.chef role from file "./config/chef-repo/master-role-template.json"'
+                    sh 'knife cookbook --config /var/lib/jenkins/.chef upload -a'
+                    sh 'knife role --config /var/lib/jenkins/.chef from file "./config/chef-repo/worker-role-template.json"'
+                    sh 'knife role --config /var/lib/jenkins/.chef from file "./config/chef-repo/master-role-template.json"'
                     sh 'cd ./tf-setup-services'
                     sh 'terraform apply -auto-approve'
                     withCredentials([aws(credentialsId: 'aws_credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
