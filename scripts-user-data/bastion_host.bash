@@ -23,7 +23,7 @@ systemctl enable jenkins
 hostname chef-infra-server
 #Install Chef Infra Server
 export COOKBOOKS_DIR="/var/lib/jenkins/chef-repo/cookbooks"
-export $KNIFE_HOME="/var/lib/jenkins/.chef"
+export KNIFE_HOME="/var/lib/jenkins/.chef"
 cat <<EOF | tee /etc/profile.d/variables.sh
 export COOKBOOKS_DIR="/var/lib/jenkins/chef-repo/cookbooks"
 export KNIFE_HOME="/var/lib/jenkins/.chef"
@@ -41,6 +41,10 @@ curl https://raw.githubusercontent.com/computerSmokio/rampupv2/main/config/confi
 git clone https://github.com/computerSmokio/chef-rampup.git /var/lib/jenkins/chef-repo
 echo 'eval "$(chef shell-init bash)"' >> ~/.bash_profile
 echo 'export PATH="/opt/chef-workstation/embedded/bin:$PATH"' >> ~/.configuration_file
+chown jenkins /var/lib/jenkins/.chef
+chown jenkins /var/lib/jenkins/chef-repo
+
+knife ssl fetch
 #Install Terraform
 sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
 sudo yum install -y terraform
