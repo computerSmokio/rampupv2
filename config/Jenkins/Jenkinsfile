@@ -13,9 +13,9 @@ pipeline{
             steps{
                 checkout scm
                 script{
-                    sh 'knife cookbook upload -a'
-                    sh 'knife role from file "./config/chef-repo/worker-role-template.json"'
-                    sh 'knife role from file "./config/chef-repo/master-role-template.json"'
+                    sh 'knife --config /var/lib/jenkins/.chef cookbook upload -a'
+                    sh 'knife --config /var/lib/jenkins/.chef role from file "./config/chef-repo/worker-role-template.json"'
+                    sh 'knife --config /var/lib/jenkins/.chef role from file "./config/chef-repo/master-role-template.json"'
                     sh 'cd ./tf-setup-services'
                     sh 'terraform apply -auto-approve'
                     withCredentials([aws(credentialsId: 'aws_credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
@@ -27,8 +27,8 @@ pipeline{
                             returnStdout: true)
                     }
                     withCredentials([file(credentialsId:'ssh_keypair', variable:'ssh_key')]){
-                        sh "knife bootstrap $master_node_ip -U ec2-user --sudo -i $ssh_key -N master-node -r 'role[master]'"
-                        sh "knife bootstrap $worker_node_ip -U ec2-user --sudo -i $ssh_key -N worker-node -r 'role[worker]'"
+                        sh "knife --config /var/lib/jenkins/.chef bootstrap $master_node_ip -U ec2-user --sudo -i $ssh_key -N master-node -r 'role[master]'"
+                        sh "knife --config /var/lib/jenkins/.chef bootstrap $worker_node_ip -U ec2-user --sudo -i $ssh_key -N worker-node -r 'role[worker]'"
                         join_command  = sh(
                             script: "ssh -i $ssh_key ec2-user@$master_node_ip kubeadm token create --print-join-command --ttl 1m",
                             returnStdout: true)
