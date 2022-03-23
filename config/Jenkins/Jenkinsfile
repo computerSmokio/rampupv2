@@ -16,7 +16,6 @@ pipeline{
                     sh 'knife cookbook upload -a'
                     sh 'knife role from file "./../../chef-repo/worker-role-template.json"'
                     sh 'knife role from file "./../../chef-repo/master-role-template.json"'
-                    sh 'cd ./tf-setup-services'
                     withCredentials([aws(credentialsId: 'aws_credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                         sh 'terraform -chdir=./tf-setup-services init'
                         sh 'terraform -chdir=./tf-setup-services apply -auto-approve'

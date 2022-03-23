@@ -6,4 +6,4 @@ log_location             STDOUT
 node_name                "chefadmin"
 client_key               "#{current_dir}/chefadmin.pem"
 chef_server_url          "https://chef-infra-server/organizations/rampup"
-cookbook_path            ["#{cookbooks_dir}/../chef-repo/cookbooks"]
+cookbook_path            ["#{current_dir}/../chef-repo/cookbooks"]
