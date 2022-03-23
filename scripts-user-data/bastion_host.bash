@@ -18,7 +18,7 @@ mkdir -p /var/lib/jenkins/init.groovy.d
 curl https://raw.githubusercontent.com/computerSmokio/rampupv2/main/init.groovy.d/installPlugins.groovy >> /var/lib/jenkins/init.groovy.d/installPlugins.groovy
 curl https://raw.githubusercontent.com/computerSmokio/rampupv2/main/init.groovy.d/createAdmin.groovy >> /var/lib/jenkins/init.groovy.d/createAdmin.groovy
 systemctl daemon-reload
-systemctl start jenkins
+systemctl --no-block start jenkins
 systemctl enable jenkins
 hostname chef-infra-server
 #Install Chef Infra Server
