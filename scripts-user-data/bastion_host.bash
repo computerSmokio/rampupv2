@@ -28,11 +28,9 @@ EOF
 git clone https://github.com/computerSmokio/chef-repo.git /var/lib/jenkins/chef-repo
 curl https://artifactory-internal.ps.chef.co/artifactory/omnibus-stable-local/com/getchef/chef-workstation/22.2.807/amazon/2/chef-workstation-22.2.807-1.el7.x86_64.rpm -o /tmp/chef-workstation.rpm
 rpm -Uvh /tmp/chef-workstation.rpm
-git clone https://github.com/computerSmokio/chef-rampup.git /var/lib/jenkins/chef-repo
 echo 'eval "$(chef shell-init bash)"' >> ~/.bash_profile
 echo 'export PATH="/opt/chef-workstation/embedded/bin:$PATH"' >> ~/.configuration_file
-chown jenkins /var/lib/jenkins/.chef
-chown jenkins /var/lib/jenkins/chef-repo
+chown -R jenkins /var/lib/jenkins/chef-repo
 
 knife ssl fetch
 #Install Terraform
