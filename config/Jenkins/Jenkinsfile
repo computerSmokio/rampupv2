@@ -25,11 +25,11 @@ pipeline{
                     }
                     withCredentials([file(credentialsId:'ssh_keypair', variable:'ssh_key')]){
                         withCredentials([file(credentialsId:'chef_keypair', variable:'chef_key')]){
-                            sh "knife -k ${chef_key} cookbook upload -a"
-                            sh "knife -k ${chef_key} role from file './../../chef-repo/worker-role-template.json'"
-                            sh "knife -k ${chef_key} role from file './../../chef-repo/master-role-template.json'"
-                            sh "knife -k ${chef_key} bootstrap --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N master-node -r 'role[master-cluster]' $master_node_ip"
-                            sh "knife -k ${chef_key} bootstrap --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N worker-node -r 'role[worker-cluster]' $worker_node_ip"
+                            sh "knife cookbook upload -k ${chef_key} -a"
+                            sh "knife role from file -k ${chef_key} './../../chef-repo/worker-role-template.json'"
+                            sh "knife role from file -k ${chef_key} './../../chef-repo/master-role-template.json'"
+                            sh "knife bootstrap -k ${chef_key} --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N master-node -r 'role[master-cluster]' $master_node_ip"
+                            sh "knife bootstrap -k ${chef_key} --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N worker-node -r 'role[worker-cluster]' $worker_node_ip"
                         }
                         join_command  = sh(
                             script: "ssh -i $ssh_key ec2-user@$master_node_ip kubeadm token create --print-join-command --ttl 1m",
