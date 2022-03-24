@@ -28,8 +28,8 @@ pipeline{
                             sh "knife cookbook upload -k ${chef_key} -a"
                             sh "knife role from file -k ${chef_key} './../../chef-repo/roles/worker-cluster-role.json'"
                             sh "knife role from file -k ${chef_key} './../../chef-repo/roles/master-cluster-role.json'"
-                            sh "knife bootstrap -k ${chef_key} --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N master-node -r 'role[master-cluster]' $master_node_ip"
-                            sh "knife bootstrap -k ${chef_key} --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N worker-node -r 'role[worker-cluster]' $worker_node_ip"
+                            sh "knife bootstrap -k ${chef_key} --chef-license=accept --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N master-node -r 'role[master-cluster]' $master_node_ip"
+                            sh "knife bootstrap -k ${chef_key} --chef-license=accept --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N worker-node -r 'role[worker-cluster]' $worker_node_ip"
                         }
                         join_command  = sh(
                             script: "ssh -i $ssh_key ec2-user@$master_node_ip kubeadm token create --print-join-command --ttl 1m",

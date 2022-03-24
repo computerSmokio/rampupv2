@@ -31,7 +31,6 @@ curl https://artifactory-internal.ps.chef.co/artifactory/omnibus-stable-local/co
 rpm -Uvh /tmp/chef-workstation.rpm
 echo 'eval "$(chef shell-init bash)"' >> ~/.bash_profile
 echo 'export PATH="/opt/chef-workstation/embedded/bin:$PATH"' >> ~/.configuration_file
-
 knife ssl fetch
 #Install Terraform
 sudo curl https://releases.hashicorp.com/terraform/1.1.7/terraform_1.1.7_linux_amd64.zip -o /tmp/terraform.zip && sudo unzip /tmp/terraform.zip -d /usr/bin
