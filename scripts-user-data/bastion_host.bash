@@ -17,20 +17,20 @@ yum install -y jenkins
 mkdir -p /var/lib/jenkins/init.groovy.d
 curl https://raw.githubusercontent.com/computerSmokio/rampupv2/main/init.groovy.d/installPlugins.groovy >> /var/lib/jenkins/init.groovy.d/installPlugins.groovy
 curl https://raw.githubusercontent.com/computerSmokio/rampupv2/main/init.groovy.d/createAdmin.groovy >> /var/lib/jenkins/init.groovy.d/createAdmin.groovy
-systemctl daemon-reload
-systemctl --no-block start jenkins
-systemctl enable jenkins
 #Install Chef Infra Server
+git clone https://github.com/computerSmokio/chef-repo.git /var/lib/jenkins/chef-repo
+chown -R jenkins /var/lib/jenkins/chef-repo
 export KNIFE_HOME="/var/lib/jenkins/chef-repo/.chef"
 cat <<EOF | tee /etc/profile.d/variables.sh
 export KNIFE_HOME="/var/lib/jenkins/chef-repo/.chef"
 EOF
-git clone https://github.com/computerSmokio/chef-repo.git /var/lib/jenkins/chef-repo
+systemctl daemon-reload
+systemctl --no-block start jenkins
+systemctl enable jenkins
 curl https://artifactory-internal.ps.chef.co/artifactory/omnibus-stable-local/com/getchef/chef-workstation/22.2.807/amazon/2/chef-workstation-22.2.807-1.el7.x86_64.rpm -o /tmp/chef-workstation.rpm
 rpm -Uvh /tmp/chef-workstation.rpm
 echo 'eval "$(chef shell-init bash)"' >> ~/.bash_profile
 echo 'export PATH="/opt/chef-workstation/embedded/bin:$PATH"' >> ~/.configuration_file
-chown -R jenkins /var/lib/jenkins/chef-repo
 
 knife ssl fetch
 #Install Terraform
