@@ -13,9 +13,6 @@ pipeline{
             steps{
                 checkout scm
                 script{
-                    sh 'knife cookbook upload -a'
-                    sh 'knife role from file "./../../chef-repo/worker-role-template.json"'
-                    sh 'knife role from file "./../../chef-repo/master-role-template.json"'
                     withCredentials([aws(credentialsId: 'aws_credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                         sh 'terraform -chdir=./tf-setup-services init'
                         sh 'terraform -chdir=./tf-setup-services apply -auto-approve'
@@ -27,8 +24,13 @@ pipeline{
                             returnStdout: true)
                     }
                     withCredentials([file(credentialsId:'ssh_keypair', variable:'ssh_key')]){
-                        sh "knife bootstrap --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N master-node -r 'role[master-cluster]' $master_node_ip"
-                        sh "knife bootstrap --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N worker-node -r 'role[worker-cluster]' $worker_node_ip"
+                        withCredentials([file(credentialsId:'chef_keypair', variable:'chef_key')]){
+                            sh "knife -k ${chef_key} cookbook upload -a"
+                            sh "knife -k ${chef_key} role from file './../../chef-repo/worker-role-template.json'"
+                            sh "knife -k ${chef_key} role from file './../../chef-repo/master-role-template.json'"
+                            sh "knife -k ${chef_key} bootstrap --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N master-node -r 'role[master-cluster]' $master_node_ip"
+                            sh "knife -k ${chef_key} bootstrap --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N worker-node -r 'role[worker-cluster]' $worker_node_ip"
+                        }
                         join_command  = sh(
                             script: "ssh -i $ssh_key ec2-user@$master_node_ip kubeadm token create --print-join-command --ttl 1m",
                             returnStdout: true)
