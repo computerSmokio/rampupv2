@@ -27,12 +27,12 @@ spec:
           valueFrom:
             secretKeyRef:
               name: backend-secrets
-              key: bk_url
+              key: bk.url
         - name: PORT
           valueFrom:
             secretKeyRef:
               name: frontend-secrets
-              key: fr_port
+              key: fr.port
         ports:
         - containerPort: 3030
           name: frontend-port
