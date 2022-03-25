@@ -2,8 +2,7 @@
 pipeline{
     agent any
     environment{
-        db_entrypoint=credentials('bk_url')
-        db_port=credentials('db_port')
+        bk_url=credentials('bk_url')
         db_user=credentials('db_user')
         db_pass=credentials('db_pass')
         db_name=credentials('db_name')
