@@ -34,9 +34,9 @@ pipeline{
                             sh "knife bootstrap -k ${chef_key} --chef-license=accept --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N worker-node -r 'role[worker-cluster]' $worker_node_ip"
                         }
                         join_command  = sh(
-                            script: "ssh -i $ssh_key ec2-user@$master_node_ip kubeadm token create --print-join-command --ttl 1m",
+                            script: "ssh -o StrictHostKeyChecking=no -i $ssh_key ec2-user@$master_node_ip kubeadm token create --print-join-command --ttl 1m",
                             returnStdout: true)
-                        sh "ssh -i $ssh_key ec2-user@$worker_node_ip sudo $join_command"
+                        sh "ssh -o StrictHostKeyChecking=no -i $ssh_key ec2-user@$worker_node_ip sudo $join_command"
                     }
                 }
             }
