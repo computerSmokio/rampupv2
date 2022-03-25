@@ -38,9 +38,9 @@ pipeline{
                             script: "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${master_node_ip} kubeadm token create --print-join-command --ttl 1m",
                             returnStdout: true)
                         sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${worker_node_ip} sudo ${join_command}"
-                        sh "kubectl create secret generic db-secrets --from-literal=db.entrypoint=mokk.url --from-literal=db.user=${db_user} --from-literal=db.pass=${db_pass} --from-literal=db.name=${db_name}"
-                        sh "kubectl create secret generic backend-secrets --from-literal=bk.url=${bk_url} --from-literal=bk.port=${bk_port}"
-                        sh "kubectl create secret generic frontend-secrets --from-literal=fr.port=${fr_port}"
+                        sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${master_node_ip} kubectl create secret generic db-secrets --from-literal=db.entrypoint=mokk.url --from-literal=db.user=${db_user} --from-literal=db.pass=${db_pass} --from-literal=db.name=${db_name}"
+                        sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${master_node_ip} kubectl create secret generic backend-secrets --from-literal=bk.url=${bk_url} --from-literal=bk.port=${bk_port}"
+                        sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${master_node_ip} kubectl create secret generic frontend-secrets --from-literal=fr.port=${fr_port}"
                     }
                 }
             }
