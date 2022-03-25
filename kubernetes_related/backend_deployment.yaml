@@ -17,6 +17,32 @@ spec:
       - image: 419466290453.dkr.ecr.sa-east-1.amazonaws.com/rampup-backend:latest
         imagePullPolicy: Always
         name: backend-movie-container
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: db_entrypoint
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: db_user
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: db_pass
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: db_name
+        - name: PORT
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: bk_port
         ports:
         - containerPort: 3000
           name: backend-port

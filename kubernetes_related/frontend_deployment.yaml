@@ -22,6 +22,17 @@ spec:
       - image: 419466290453.dkr.ecr.sa-east-1.amazonaws.com/rampup-frontend:latest
         imagePullPolicy: Always
         name: frontend-movie-container
+        env:
+        - name: BACKEND_URL
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: bk_url
+        - name: PORT
+          valueFrom:
+            secretKeyRef:
+              name: frontend-secrets
+              key: fr_port
         ports:
         - containerPort: 3030
           name: frontend-port
