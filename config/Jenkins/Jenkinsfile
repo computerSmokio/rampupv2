@@ -22,6 +22,8 @@ pipeline{
                         worker_node_ip  = sh(
                             script: "aws ec2 describe-instances --region sa-east-1  --filter Name=instance.group-name,Values=worker-node-sg --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text",
                             returnStdout: true)
+                        master_node_ip=master_node_ip.substring(0,master_node_ip.indexOf('\n'))
+                        worker_node_ip=worker_node_ip.substring(0,worker_node_ip.indexOf('\n'))
                     }
                     withCredentials([file(credentialsId:'ssh_keypair', variable:'ssh_key')]){
                         withCredentials([file(credentialsId:'chef_keypair', variable:'chef_key')]){
@@ -35,8 +37,6 @@ pipeline{
                             script: "ssh -i $ssh_key ec2-user@$master_node_ip kubeadm token create --print-join-command --ttl 1m",
                             returnStdout: true)
                         sh "ssh -i $ssh_key ec2-user@$worker_node_ip sudo $join_command"
-                        sh "ssh -i $ssh_key ec2-user@$worker_node_ip sudo kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml"
-                        sh "ssh -i $ssh_key ec2-user@$worker_node_ip sudo kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/baremetal/1.23/deploy.yaml"
                     }
                 }
             }
