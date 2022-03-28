@@ -10,6 +10,10 @@ baseurl=https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/
 gpgcheck=no
 enabled=yes
 EOF
+# Install Docker
+yum install -y docker
+systemctl start docker
+systemctl enable docker
 # Add required dependencies for the jenkins package
 yum install -y java-1.8.0-openjdk
 yum install -y daemonize

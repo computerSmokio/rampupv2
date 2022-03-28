@@ -26,7 +26,7 @@ spec:
         - name: BACKEND_URL
           valueFrom:
             secretKeyRef:
-              name: backend-secrets
+              name: frontend-secrets
               key: bk.url
         - name: PORT
           valueFrom:
