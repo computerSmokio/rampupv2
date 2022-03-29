@@ -54,7 +54,14 @@ locals {
                 to_port           = 80
                 protocol          = "tcp"
                 cidr_blocks       = ["0.0.0.0/0"]
-            }
+            },
+            {
+                description       = "Allow encapsulation"
+                from_port         = 8472
+                to_port           = 8472
+                protocol          = "udp"
+                cidr_blocks       = ["10.0.3.0/24"]
+            }            
             ] 
             tags = {"Name" = "master-node-sg"}
         },
@@ -117,13 +124,20 @@ locals {
                 to_port           = 80
                 protocol          = "tcp"
                 cidr_blocks       = ["0.0.0.0/0"]
+            },
+            {
+                description       = "Allow encapsulation"
+                from_port         = 8472
+                to_port           = 8472
+                protocol          = "udp"
+                cidr_blocks       = ["10.0.3.0/24"]
             }
             ] 
             tags = {"Name" = "worker-node-sg"}
         },
         {
             name = "mysql-sg"
-            description = "bastion host security group"
+            description = "mysql security group"
             egress = [ {
                 description = "Allow any egress"
                 from_port   = 0
