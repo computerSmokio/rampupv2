@@ -56,7 +56,7 @@ spec:
 kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: frontend-ingres
+  name: frontend-ingress
   namespace: rampup-frontend-ns
 spec:
   ingressClassName: nginx
