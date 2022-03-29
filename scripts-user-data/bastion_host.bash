@@ -21,6 +21,7 @@ yum install -y jenkins
 mkdir -p /var/lib/jenkins/init.groovy.d
 curl https://raw.githubusercontent.com/computerSmokio/rampupv2/main/init.groovy.d/installPlugins.groovy >> /var/lib/jenkins/init.groovy.d/installPlugins.groovy
 curl https://raw.githubusercontent.com/computerSmokio/rampupv2/main/init.groovy.d/createAdmin.groovy >> /var/lib/jenkins/init.groovy.d/createAdmin.groovy
+usermod -aG docker jenkins
 #Install Chef Infra Server
 git clone https://github.com/computerSmokio/chef-repo.git /var/lib/jenkins/chef-repo
 chown -R jenkins /var/lib/jenkins/chef-repo
