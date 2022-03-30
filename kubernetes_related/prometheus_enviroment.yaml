@@ -120,7 +120,7 @@ spec:
         image: prom/prometheus
         imagePullPolicy: IfNotPresent
         args:
-          - '--config.file=/etc/prometheus/prometheus.yml'
+          - '--config.file=/etc/prometheus/prometheus.yaml'
           - '--storage.tsdb.path=/prometheus'
         volumeMounts:
         - name: config-volume
