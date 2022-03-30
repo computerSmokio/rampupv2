@@ -121,14 +121,14 @@ spec:
         imagePullPolicy: IfNotPresent
         args:
           - '--storage.tsdb.path=/prometheus'
-      volumeMounts:
-      - name: config-volume
-        mountPath: /etc/prometheus/prometheus.yaml
-        subPath: prometheus.yaml
-      - name: prometheus-data
-        mountPath: /prometheus
-      ports:
-        containerPort: 9090
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/prometheus/prometheus.yaml
+          subPath: prometheus.yaml
+        - name: prometheus-data
+          mountPath: /prometheus
+        ports:
+          containerPort: 9090
       volumes:
       - name: config-volume
         configMap:
