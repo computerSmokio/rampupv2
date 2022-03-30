@@ -114,7 +114,7 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/port: "9090"
     spec:
-      ServiceAccountName: prometheus-account
+      serviceAccountName: prometheus-account
       containers:
       - name: prometheus-container
         image: prom/prometheus
@@ -128,7 +128,8 @@ spec:
         - name: prometheus-data
           mountPath: /prometheus
         ports:
-          containerPort: 9090
+        - containerPort: 9090
+          name: prometheus-port
       volumes:
       - name: config-volume
         configMap:
