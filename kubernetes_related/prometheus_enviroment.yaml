@@ -223,7 +223,7 @@ spec:
     http:
       paths:
         - pathType: Prefix
-          path: /prometheus-ui
+          path: /graph
           backend:
             service:
               name: prometheus-service
