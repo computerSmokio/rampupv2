@@ -3,6 +3,7 @@ kind: Namespace
 metadata:
   name: monitoring
 ---
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: prometheus-config
@@ -56,6 +57,7 @@ data:
           action: replace
           target_label: kubernetes_pod_name
 ---
+apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: prometheus-account
@@ -80,6 +82,7 @@ rules:
 - nonResourceURLs: ["/metrics"]
   verbs: ["get"]
 ---
+apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
   name: prometheus-binding
@@ -207,8 +210,8 @@ spec:
           hostPath:
             path: /
 ---
-kind: Ingress
 apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: prometheus-ingress
   namespace: monitoring
