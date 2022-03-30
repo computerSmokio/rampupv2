@@ -158,6 +158,8 @@ metadata:
   labels:
     name: node-exporter
 spec:
+  selector:
+    name: node-exporter
   template:
     metadata:
       labels:
@@ -176,8 +178,6 @@ spec:
           resources:
             requests:
               cpu: 0.15
-          securityContext:
-            priviliged: true
           image: prom/node-exporter
           args:
             - --path.procfs
