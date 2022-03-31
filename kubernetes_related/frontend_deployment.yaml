@@ -61,7 +61,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: app.movie-ui.com
+  - host: app.movie-uii.com
     http:
       paths:
         - pathType: Prefix
