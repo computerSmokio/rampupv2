@@ -32,7 +32,7 @@ EOF
 systemctl daemon-reload
 systemctl --no-block start jenkins
 systemctl enable jenkins
-curl https://artifactory-internal.ps.chef.co/artifactory/omnibus-stable-local/com/getchef/chef-workstation/22.2.807/amazon/2/chef-workstation-22.2.807-1.el7.x86_64.rpm -o /tmp/chef-workstation.rpm
+curl https://packages.chef.io/files/stable/chef-workstation/22.2.807/amazon/2/chef-workstation-22.2.807-1.el7.x86_64.rpm -o /tmp/chef-workstation.rpm
 rpm -Uvh /tmp/chef-workstation.rpm
 echo 'eval "$(chef shell-init bash)"' >> ~/.bash_profile
 echo 'export PATH="/opt/chef-workstation/embedded/bin:$PATH"' >> ~/.configuration_file
