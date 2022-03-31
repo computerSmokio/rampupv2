@@ -60,8 +60,13 @@ metadata:
   namespace: rampup-frontend-ns
 spec:
   ingressClassName: nginx
+  defaultBackend:
+    service:
+      name: frontend-svc
+      port:
+        number: 3030
   rules:
-  - host: app.movie-uii.com
+  - host: app.movie-ui.com
     http:
       paths:
         - pathType: Prefix
@@ -70,26 +75,5 @@ spec:
             service:
               name: frontend-svc
               port:
-                number: 3030
-        - pathType: Prefix
-          path: /movies
-          backend:
-            service:
-              name: frontend-svc
-              port:
-                number: 3030
-        - pathType: Prefix
-          path: /authors
-          backend:
-            service:
-              name: frontend-svc
-              port:
-                number: 3030                                
-        - pathType: Prefix
-          path: /publications
-          backend:
-            service:
-              name: frontend-svc
-              port:
-                number: 3030                                
+                number: 3030                              
                 
