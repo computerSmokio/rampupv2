@@ -227,7 +227,6 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: local-storage
 ---
 apiVersion: apps/v1
 kind: Deployment
