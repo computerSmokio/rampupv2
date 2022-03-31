@@ -298,7 +298,7 @@ spec:
         number: 3000
   ingressClassName: nginx
   rules:
-  - host: app.movie-ui.com
+  - host: app.metrics.com
     http:
       paths:
         - pathType: Prefix
