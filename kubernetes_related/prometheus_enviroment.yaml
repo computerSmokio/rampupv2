@@ -216,19 +216,6 @@ spec:
           hostPath:
             path: /
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: grafana
-  namespace: monitoring
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  storageClassName: ""
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -282,8 +269,7 @@ spec:
               name: grafana
       volumes:
         - name: grafana
-          persistentVolumeClaim:
-            claimName: grafana
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
