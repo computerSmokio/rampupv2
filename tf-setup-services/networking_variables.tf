@@ -42,20 +42,6 @@ locals {
                 cidr_blocks       = ["10.0.3.0/24"]
             },
             {
-                description       = "Allow https calls"
-                from_port         = 443
-                to_port           = 443
-                protocol          = "tcp"
-                cidr_blocks       = ["0.0.0.0/0"]
-            },
-            {
-                description       = "Allow https calls"
-                from_port         = 80
-                to_port           = 80
-                protocol          = "tcp"
-                cidr_blocks       = ["0.0.0.0/0"]
-            },
-            {
                 description       = "Allow encapsulation"
                 from_port         = 8472
                 to_port           = 8472
@@ -98,32 +84,11 @@ locals {
                 cidr_blocks = ["10.0.3.0/24"]
             },
             {
-                description       = "Allow metrics"
-                from_port         = 10250
-                to_port           = 10250
-                protocol          = "tcp"
-                cidr_blocks       = ["10.0.3.0/24"]
-            },
-            {
-                description       = "Allow metrics"
-                from_port         = 10255
-                to_port           = 10255
-                protocol          = "tcp"
-                cidr_blocks       = ["10.0.3.0/24"]
-            },
-            {
-                description       = "Allow https calls"
-                from_port         = 443
-                to_port           = 443
-                protocol          = "tcp"
-                cidr_blocks       = ["0.0.0.0/0"]
-            },
-            {
-                description       = "Allow http"
-                from_port         = 80
-                to_port           = 80
-                protocol          = "tcp"
-                cidr_blocks       = ["0.0.0.0/0"]
+                description = "Allow NLB"
+                from_port   = 30100
+                to_port     = 30100
+                protocol    = "tcp"
+                cidr_blocks = ["0.0.0.0/0"]
             },
             {
                 description       = "Allow encapsulation"
