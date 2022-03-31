@@ -11,7 +11,7 @@ locals {
     ec2_instances = [
         {
             ami = "ami-06078a297452ba5aa"
-            instance_type = "t2.micro"
+            instance_type = "t2.small"
             subnet_id = data.terraform_remote_state.fundation.outputs.private_subnet_ids[0]
             security_groups = [module.security_groups.security_groups["master-node-sg"]]
             instance_profile = "k8-test-master"
