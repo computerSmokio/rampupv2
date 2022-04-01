@@ -96,6 +96,13 @@ locals {
                 to_port           = 8472
                 protocol          = "udp"
                 cidr_blocks       = ["10.0.3.0/24"]
+            },
+            {
+                description       = "Allow logs"
+                from_port         = 10250
+                to_port           = 10250
+                protocol          = "tcp"
+                cidr_blocks       = ["10.0.3.0/24"]
             }
             ] 
             tags = {"Name" = "worker-node-sg"}
