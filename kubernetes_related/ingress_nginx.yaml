@@ -417,6 +417,9 @@ metadata:
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/version: 1.1.2
     helm.sh/chart: ingress-nginx-4.0.18
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9113"
   name: ingress-nginx-controller
   namespace: ingress-nginx
 spec:
@@ -444,6 +447,7 @@ spec:
         - --validating-webhook=:8443
         - --validating-webhook-certificate=/usr/local/certificates/cert
         - --validating-webhook-key=/usr/local/certificates/key
+        - -enable-prometheus-metrics
         env:
         - name: POD_NAME
           valueFrom:
@@ -483,6 +487,8 @@ spec:
         - containerPort: 8443
           name: webhook
           protocol: TCP
+        - name: prometheus
+          containerPort: 9113
         readinessProbe:
           failureThreshold: 3
           httpGet:
