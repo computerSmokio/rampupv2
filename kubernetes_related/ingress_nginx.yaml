@@ -349,6 +349,9 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "10254"
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/instance: ingress-nginx
@@ -357,9 +360,6 @@ metadata:
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/version: 1.1.2
     helm.sh/chart: ingress-nginx-4.0.18
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "9113"
   name: ingress-nginx-controller
   namespace: ingress-nginx
 spec:
@@ -368,7 +368,7 @@ spec:
   ipFamilyPolicy: SingleStack
   ports:
   - name: prometheus
-    port: 9113
+    port: 10254
     targetPort: prometheus
   - appProtocol: http
     name: http
@@ -415,6 +415,9 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "10254"
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/instance: ingress-nginx
@@ -426,6 +429,7 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
 spec:
+
   minReadySeconds: 0
   revisionHistoryLimit: 10
   selector:
@@ -439,9 +443,6 @@ spec:
         app.kubernetes.io/component: controller
         app.kubernetes.io/instance: ingress-nginx
         app.kubernetes.io/name: ingress-nginx
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "9113"
     spec:
       containers:
       - args:
@@ -493,7 +494,7 @@ spec:
           name: webhook
           protocol: TCP
         - name: prometheus
-          containerPort: 9113
+          containerPort: 10254
         readinessProbe:
           failureThreshold: 3
           httpGet:
