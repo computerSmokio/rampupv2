@@ -1,6 +1,5 @@
 resource "aws_instance" "ec2_instances" {
     for_each = {for instance in var.instances: instance.tags["Name"] => instance}
-    count = each.value.amount
     ami                    = each.value.ami
     instance_type          = each.value.instance_type
     vpc_security_group_ids = each.value.security_groups

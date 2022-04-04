@@ -22,7 +22,7 @@ locals {
             tags = {"Name" = "Master Node"}
         },
         {
-            amount = 2
+            count = 2
             ami = "ami-06078a297452ba5aa"
             instance_type = "t2.micro"
             subnet_id = data.terraform_remote_state.fundation.outputs.private_subnet_ids[0]
