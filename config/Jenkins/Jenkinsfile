@@ -17,7 +17,7 @@ pipeline{
                             returnStdout: true).split()
                         master_node_ip=master_node_ip.substring(0,master_node_ip.indexOf('\n'))
                         worker_nodes_ip.each{ index, value -> 
-                          println "${index} ${value}"
+                          value = value.substring(0, value.indexOf('\n'))
                         }
                     }
                     withCredentials([file(credentialsId:'ssh_keypair', variable:'ssh_key')]){
