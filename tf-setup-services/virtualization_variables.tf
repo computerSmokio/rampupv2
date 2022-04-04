@@ -10,6 +10,7 @@ variable "db_password" {
 locals {
     ec2_instances = [
         {
+            amount = 1
             ami = "ami-06078a297452ba5aa"
             instance_type = "t2.small"
             subnet_id = data.terraform_remote_state.fundation.outputs.private_subnet_ids[0]
@@ -21,6 +22,7 @@ locals {
             tags = {"Name" = "Master Node"}
         },
         {
+            amount = 2
             ami = "ami-06078a297452ba5aa"
             instance_type = "t2.small"
             subnet_id = data.terraform_remote_state.fundation.outputs.private_subnet_ids[0]
