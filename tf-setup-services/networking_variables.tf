@@ -143,7 +143,11 @@ locals {
         type = "ip"
         targets = [
             {
-                ip = module.ec2_instances.ec2_instances["Worker Node"].private_ip
+                ip = module.ec2_instances.ec2_instances["Worker Node 1"].private_ip
+                port = 30100
+            },
+            {
+                ip = module.ec2_instances.ec2_instances["Worker Node 2"].private_ip
                 port = 30100
             }
         ]
