@@ -37,7 +37,6 @@ pipeline{
                             worker_nodes_ip.each{ index, value -> 
                                 sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${value} sudo ${join_command}"
                             }
-                        sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${worker_node_ip} sudo ${join_command}"
                     }
                 }
             }
