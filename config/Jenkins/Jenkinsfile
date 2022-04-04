@@ -16,9 +16,6 @@ pipeline{
                             script: "aws ec2 describe-instances --region sa-east-1  --filter Name=instance.group-name,Values=worker-node-sg --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text",
                             returnStdout: true).split()
                         master_node_ip=master_node_ip.substring(0,master_node_ip.indexOf('\n'))
-                        worker_nodes_ip.each{ value -> 
-                          value = value.substring(0, value.indexOf('\n'))
-                        }
                     }
                     withCredentials([file(credentialsId:'ssh_keypair', variable:'ssh_key')]){
                         withCredentials([file(credentialsId:'chef_keypair', variable:'chef_key')]){
