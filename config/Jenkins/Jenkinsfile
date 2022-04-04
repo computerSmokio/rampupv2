@@ -12,11 +12,14 @@ pipeline{
                         master_node_ip  = sh(
                             script: "aws ec2 describe-instances --region sa-east-1  --filter Name=instance.group-name,Values=master-node-sg --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text",
                             returnStdout: true)
-                        worker_node_ip  = sh(
+                        worker_nodes_ip  = sh(
                             script: "aws ec2 describe-instances --region sa-east-1  --filter Name=instance.group-name,Values=worker-node-sg --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text",
-                            returnStdout: true)
+                            returnStdout: true).split()
+                        worker
                         master_node_ip=master_node_ip.substring(0,master_node_ip.indexOf('\n'))
-                        worker_node_ip=worker_node_ip.substring(0,worker_node_ip.indexOf('\n'))
+                        worker_nodes_ip.each{ index, value -> 
+                          worker_nodes_ip[index] = value.substring(0, value.indexOf('\n'))
+                        }
                     }
                     withCredentials([file(credentialsId:'ssh_keypair', variable:'ssh_key')]){
                         withCredentials([file(credentialsId:'chef_keypair', variable:'chef_key')]){
@@ -24,11 +27,16 @@ pipeline{
                             sh "knife role from file -k ${chef_key} './../../chef-repo/roles/worker-cluster-role.json'"
                             sh "knife role from file -k ${chef_key} './../../chef-repo/roles/master-cluster-role.json'"
                             sh "knife bootstrap -k ${chef_key} --chef-license=accept --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N master-node -r 'role[master-cluster]' $master_node_ip"
-                            sh "knife bootstrap -k ${chef_key} --chef-license=accept --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N worker-node -r 'role[worker-cluster]' $worker_node_ip"
+                            worker_nodes_ip.each{ index, value -> 
+                                sh "knife bootstrap -k ${chef_key} --chef-license=accept --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N worker-node -r 'role[worker-cluster]' $value"
+                            }
                         }
                         join_command  = sh(
                             script: "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${master_node_ip} kubeadm token create --print-join-command --ttl 1m",
                             returnStdout: true)
+                            worker_nodes_ip.each{ index, value -> 
+                                sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${value} sudo ${join_command}"
+                            }
                         sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${worker_node_ip} sudo ${join_command}"
                     }
                 }
