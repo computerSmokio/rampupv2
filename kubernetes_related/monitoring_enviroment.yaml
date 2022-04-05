@@ -265,14 +265,14 @@ spec:
           image: grafana/grafana:8.4.4
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 3000
+            - containerPort: 30000
               name: http-grafana
               protocol: TCP
           readinessProbe:
             failureThreshold: 3
             httpGet:
               path: /robots.txt
-              port: 3000
+              port: 30000
               scheme: HTTP
             initialDelaySeconds: 10
             periodSeconds: 30
@@ -284,7 +284,7 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             tcpSocket:
-              port: 3000
+              port: 30000
             timeoutSeconds: 1
           resources:
             requests:
@@ -321,7 +321,7 @@ spec:
     service:
       name: grafana-service
       port:
-        number: 3000
+        number: 30000
   ingressClassName: nginx
   rules:
   - host: app.metrics.com
@@ -333,7 +333,7 @@ spec:
             service:
               name: grafana-service
               port:
-                number: 3000
+                number: 30000
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
