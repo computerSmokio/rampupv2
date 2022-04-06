@@ -41,6 +41,11 @@ spec:
         ports:
         - containerPort: 3030
           name: frontend-port
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3030
+          successThreshold: 3
 ---
 apiVersion: v1
 kind: Service
