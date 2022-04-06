@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    stages 
+    {
+        stage('Create Cluster') {
+            steps {
+                build job: 'pipeline_deploy_environment', propagate: true, wait: true
+            }
+        }
+
+        stage('Deploy Frontend') {
+            steps {
+                build job: 'pipeline_frontend', propagate: true, wait: true
+            }
+        }
+
+        stage('Deploy Backend') {
+            steps {
+                build job: 'pipeline_backend', propagate: true, wait: true
+            }
+        }
+    }
+}
