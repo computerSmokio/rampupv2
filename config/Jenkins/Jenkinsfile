@@ -24,7 +24,7 @@ pipeline{
                             sh "knife role from file -k ${chef_key} './../../chef-repo/roles/master-cluster-role.json'"
                             sh "knife bootstrap -k ${chef_key} --chef-license=accept --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N master-node -r 'role[master-cluster]' $master_node_ip"
                             worker_nodes_ip.each{ value -> 
-                                sh "knife bootstrap -k ${chef_key} --chef-license=accept --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N worker-node -r 'role[worker-cluster]' $value"
+                                sh "knife bootstrap -k ${chef_key} --chef-license=accept --yes --ssh-verify-host-key never -U ec2-user -i ${ssh_key} --sudo -N 'worker-node-$value' -r 'role[worker-cluster]' $value"
                             }
                         }
                         join_command  = sh(
