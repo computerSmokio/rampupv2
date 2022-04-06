@@ -103,6 +103,13 @@ locals {
                 to_port           = 10250
                 protocol          = "tcp"
                 cidr_blocks       = ["10.0.3.0/24"]
+            },
+            {
+                description       = "Allow node metrics"
+                from_port         = 9100
+                to_port           = 9100
+                protocol          = "tcp"
+                cidr_blocks       = ["10.0.3.0/24"]
             }
             ] 
             tags = {"Name" = "worker-node-sg"}

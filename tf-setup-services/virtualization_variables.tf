@@ -18,6 +18,7 @@ locals {
             instance_profile = "k8-test-master"
             user_data = templatefile("./../scripts-user-data/worker_node.bash", {
                 chef_server_ip = data.terraform_remote_state.fundation.outputs.chef_ip
+                hostname="master-node"
             })            
             tags = {"Name" = "Master Node"}
         },
@@ -29,6 +30,7 @@ locals {
             instance_profile = "k8-test-master"
             user_data = templatefile("./../scripts-user-data/worker_node.bash", {
                 chef_server_ip = data.terraform_remote_state.fundation.outputs.chef_ip
+                hostname = "worker-node-1"
             })
             tags = {"Name" = "Worker Node 1"}
         },
@@ -40,6 +42,7 @@ locals {
             instance_profile = "k8-test-master"
             user_data = templatefile("./../scripts-user-data/worker_node.bash", {
                 chef_server_ip = data.terraform_remote_state.fundation.outputs.chef_ip
+                hostname = "worker-node-2"
             })
             tags = {"Name" = "Worker Node 2"}
         }
