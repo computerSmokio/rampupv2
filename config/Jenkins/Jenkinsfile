@@ -30,9 +30,10 @@ pipeline{
                         join_command  = sh(
                             script: "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${master_node_ip} kubeadm token create --print-join-command --ttl 1m",
                             returnStdout: true)
-                            worker_nodes_ip.each{ value -> 
-                                sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${value} sudo ${join_command}"
-                            }
+                        worker_nodes_ip.each{ value -> 
+                            sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${value} sudo ${join_command}"
+                        }
+                        sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${master_node_ip} kubectl wait deployment -n monitoring grafana-deployment --for condition=Available=True --timeout==-1s"
                         
                     }
                 }
@@ -41,7 +42,6 @@ pipeline{
         stage('Configure Grafana') {
             steps{
                 script{
-                    sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${master_node_ip} kubectl wait deployment -n monitoring grafana-deployment --for condition=Available=True --timeout==-1s"
                     organization_id  = sh(
                         script: "curl -X POST -H 'Host: app.metrics.com' -H \"Content-Type: application/json\" -d '{\"name\":\"apiorg\"}' http://admin:admin@${worker_nodes_ip[0]}:30100/api/orgs",
                         returnStdout: true)
