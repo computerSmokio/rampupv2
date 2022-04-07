@@ -42,7 +42,7 @@ pipeline{
             steps{
                 script{
                     organization_id  = sh(
-                        script: "curl -X POST -H 'Host: app.metrics.com' -H \"Content-Type: application/json\" -d '{\"name\":\"apiorg\"}'http://admin:admin@${worker_nodes_ip[0]}:30100/api/orgs",
+                        script: "curl -X POST -H 'Host: app.metrics.com' -H \"Content-Type: application/json\" -d '{\"name\":\"apiorg\"}' http://admin:admin@${worker_nodes_ip[0]}:30100/api/orgs",
                         returnStdout: true)
                     organization_id = readJSON text: "${organization_id}"
                     sh "curl -X POST -H 'Host: app.metrics.com' http://admin:admin@${worker_nodes_ip[0]}:30100/api/user/using/${organization_id.orgId}"
