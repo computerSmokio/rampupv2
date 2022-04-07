@@ -328,6 +328,8 @@
                 "type": "piechart"
                 }
         ],
-        "version": 1
+        "version": 1,
+        "title": "Rampup Dashboard"
+
     }
 }
