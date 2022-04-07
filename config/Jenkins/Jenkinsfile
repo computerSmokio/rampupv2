@@ -32,7 +32,7 @@ pipeline{
                         worker_nodes_ip.each{ value -> 
                             sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${value} sudo ${join_command}"
                         }
-                        sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${master_node_ip} kubectl wait deployment -n monitoring grafana-deployment --for condition=Available=True --timeout=-1s"
+                        sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${master_node_ip} kubectl wait pod -n monitoring -l app=grafana --for condition=Available=True --timeout=-1s"
                         
                     }
                 }
