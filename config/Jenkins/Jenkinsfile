@@ -43,17 +43,17 @@ pipeline{
                 script{
                     sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${master_node_ip} kubectl wait deployment -n monitoring grafana-deployment --for condition=Available=True --timeout==-1s"
                     organization_id  = sh(
-                        script: "curl -X POST -H 'Host: app.metrics.com' -H \"Content-Type: application/json\" -d '{\"name\":\"apiorg\"}' http://admin:admin@${worker_nodes_ip[0]}:30100/api/orgs"
+                        script: "curl -X POST -H 'Host: app.metrics.com' -H \"Content-Type: application/json\" -d '{\"name\":\"apiorg\"}' http://admin:admin@${worker_nodes_ip[0]}:30100/api/orgs",
                         returnStdout: true)
                     organization_id = readJSON text: "${organization_id}"
                     sh "curl -X POST -H 'Host: app.metrics.com' http://admin:admin@${worker_nodes_ip[0]}:30100/api/user/using/${organization_id.orgId}"
                     apikey  = sh(
-                        script: "curl -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -d '{\"name\":\"apikeycurl\", \"role\":\"Admin\"}' http://admin:admin@${worker_nodes_ip[0]}:30100/api/auth/keys"
+                        script: "curl -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -d '{\"name\":\"apikeycurl\", \"role\":\"Admin\"}' http://admin:admin@${worker_nodes_ip[0]}:30100/api/auth/keys",
                         returnStdout: true)
                     apikey = readJSON text: "${apikey}"
                     sh "curl --insecure -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -H 'Authorization: ${apikey.key}' -d '@./config/grafana/datasource.json' http://admin:admin@${worker_nodes_ip[0]}:30100/api/datasources"
                     dashboard_id  = sh(
-                        script: "curl -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -H 'Authorization: ${apikey.key}' -d '@./config/grafana/dashboard.json' http://admin:admin@${worker_nodes_ip[0]}:30100/api/dashboards/db"
+                        script: "curl -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -H 'Authorization: ${apikey.key}' -d '@./config/grafana/dashboard.json' http://admin:admin@${worker_nodes_ip[0]}:30100/api/dashboards/db",
                         returnStdout: true)
                     dashboard_id = readJSON text: "${dashboard_id}"
                     dashboard_panels = readJSON file : './config/grafana/dashboard_panels.json'
