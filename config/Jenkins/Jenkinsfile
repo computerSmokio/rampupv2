@@ -53,13 +53,7 @@ pipeline{
                     apikey = readJSON text: "${apikey}"
                     sh "curl --insecure -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -H 'Authorization: Bearer ${apikey.key}' -d '@./config/grafana/datasource.json' http://${worker_nodes_ip[0]}:30100/api/datasources"
                     sh "curl --insecure -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -H 'Authorization: Bearer ${apikey.key}' -d '@./config/grafana/folder.json' http://${worker_nodes_ip[0]}:30100/api/folders"
-                    dashboard_id  = sh(
-                        script: "curl -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -H 'Authorization: Bearer ${apikey.key}' -d '@./config/grafana/dashboard.json' http://${worker_nodes_ip[0]}:30100/api/dashboards/db",
-                        returnStdout: true)
-                    dashboard_id = readJSON text: "${dashboard_id}"
-                    dashboard_panels = readJSON file: './config/grafana/dashboard_panels.json'
-                    dashboard_panels.id = dashboard_id.id
-                    writeJSON file: './config/grafana/dashboard_panels.json', json: dashboard_panels
+                    sh "curl -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -H 'Authorization: Bearer ${apikey.key}' -d '@./config/grafana/dashboard.json' http://${worker_nodes_ip[0]}:30100/api/dashboards/db"
                     sh "curl -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -H 'Authorization: Bearer ${apikey.key}' -d '@./config/grafana/dashboard_panels.json' http://${worker_nodes_ip[0]}:30100/api/dashboards/db"
                 }
             }
