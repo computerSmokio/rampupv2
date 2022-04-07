@@ -2,8 +2,8 @@
 
 import jenkins.model.*
 
-def defaultPlugins = "docker-workflow ant build-timeout credentials-binding email-ext github-organization-folder gradle workflow-aggregator ssh-slaves subversion timestamper ws-cleanup"
-def userPlugins = "docker docker-pipeline amazon-ecr ansible"
+def defaultPlugins = "docker-workflow ant build-timeout credentials-binding github-organization-folder gradle workflow-aggregator ssh-slaves subversion timestamper ws-cleanup"
+def userPlugins = "docker docker-pipeline amazon-ecr ansible pipeline-utility-steps"
 
 def plugins = defaultPlugins.split() + userPlugins.split()
 
