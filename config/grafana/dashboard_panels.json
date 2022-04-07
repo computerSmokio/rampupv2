@@ -1,6 +1,6 @@
 {
     "dashboard":  {
-        "id": 104,
+        "uid": "nErXDvCkz5",
         "panels": [
             {
             "collapsed": false,
@@ -328,8 +328,6 @@
                 "type": "piechart"
                 }
         ],
-        "title": "Update alert rule via API",
-        "uid": "dHEquNzGz",
         "version": 1
     }
 }
