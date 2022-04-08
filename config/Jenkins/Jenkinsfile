@@ -37,7 +37,7 @@ pipeline{
                         sh "sleep 2s"
                         dashboard = readJSON file: "config/grafana/dashboard_panels.json"
                         dashboard.dashboard.templating.list[0].query = worker_nodes_ip.join(", ")
-                        writeJSON file: "config/grafana/dashboards_panels2.json", json: dashboard
+                        dashboard = writeJSON returnText: true, json: dashboard
                     }
                 }
             }
@@ -57,7 +57,7 @@ pipeline{
                     sh "curl --insecure -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -H 'Authorization: Bearer ${apikey.key}' -d '@./config/grafana/datasource.json' http://${worker_nodes_ip[0]}:30100/api/datasources"
                     sh "curl --insecure -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -H 'Authorization: Bearer ${apikey.key}' -d '@./config/grafana/folder.json' http://${worker_nodes_ip[0]}:30100/api/folders"
                     sh "curl -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -H 'Authorization: Bearer ${apikey.key}' -d '@./config/grafana/dashboard.json' http://${worker_nodes_ip[0]}:30100/api/dashboards/db"
-                    sh "curl -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -H 'Authorization: Bearer ${apikey.key}' -d '@./config/grafana/dashboard_panels2.json' http://${worker_nodes_ip[0]}:30100/api/dashboards/db"
+                    sh "curl -X POST -H 'Host: app.metrics.com' -H 'Content-Type: application/json' -H 'Authorization: Bearer ${apikey.key}' -d '${dashboard}' http://${worker_nodes_ip[0]}:30100/api/dashboards/db"
                 }
             }
         }
