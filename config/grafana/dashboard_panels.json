@@ -342,18 +342,6 @@
             "includeAll": false,
             "multi": false,
             "name": "worker",
-            "options": [
-                {
-                "selected": false,
-                "text": "10.0.3.142",
-                "value": "10.0.3.142"
-                },
-                {
-                "selected": false,
-                "text": "10.0.3.189",
-                "value": "10.0.3.189"
-                }
-            ],
             "query": "10.0.3.142, 10.0.3.189",
             "queryValue": "",
             "skipUrlSync": false,
