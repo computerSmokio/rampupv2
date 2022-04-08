@@ -131,7 +131,7 @@
                 {
                 "datasource": {
                     "type": "prometheus",
-                    "uid": "KCrbri87k"
+                    "uid": "prometheus243"
                 },
                 "exemplar": true,
                 "expr": "(sum by (cpu)(rate(node_cpu_seconds_total{instance=\"10.0.3.8:9100\", mode!=\"idle\"}[5m])))*100",
@@ -142,7 +142,7 @@
                 {
                 "datasource": {
                     "type": "prometheus",
-                    "uid": "KCrbri87k"
+                    "uid": "prometheus243"
                 },
                 "exemplar": true,
                 "expr": "node_memory_Active_bytes{instance=\"10.0.3.8:9100\"}/node_memory_MemTotal_bytes{instance=\"10.0.3.8:9100\"}*100",
@@ -254,7 +254,7 @@
                 {
                 "datasource": {
                     "type": "prometheus",
-                    "uid": "KCrbri87k"
+                    "uid": "prometheus243"
                 },
                 "exemplar": true,
                 "expr": "(sum(delta(nginx_ingress_controller_requests{service=\"frontend-svc\", status=\"404\", job=\"ingress-nginx-endpoints\"}[5m])) / sum(delta(nginx_ingress_controller_requests{service=\"frontend-svc\", job=\"ingress-nginx-endpoints\"}[5m])))*100",
@@ -315,7 +315,7 @@
                 {
                 "datasource": {
                     "type": "prometheus",
-                    "uid": "KCrbri87k"
+                    "uid": "prometheus243"
                 },
                 "exemplar": true,
                 "expr": "sum by (status)(delta(nginx_ingress_controller_requests{service=\"frontend-svc\", job=\"ingress-nginx-endpoints\"}[1h]))",
