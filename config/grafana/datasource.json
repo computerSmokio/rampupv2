@@ -3,5 +3,6 @@
     "type":"prometheus",
     "url":"http://prometheus-service:9090",
     "access":"proxy",
-    "basicAuth":false
+    "basicAuth":false,
+    "uid": "KCrbri87k"
 }
