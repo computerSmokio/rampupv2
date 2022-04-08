@@ -1,11 +1,4 @@
 {
-    "editable": true,
-    "fiscalYearStartMonth": 0,
-    "graphTooltip": 0,
-    "id": 8,
-    "iteration": 1649429327405,
-    "links": [],
-    "liveNow": false,
     "panels": [
       {
         "collapsed": false,
@@ -367,14 +360,7 @@
         }
       ]
     },
-    "time": {
-      "from": "now-6h",
-      "to": "now"
-    },
-    "timepicker": {},
-    "timezone": "",
     "title": "Rampup Dashboard",
     "uid": "nErXDvCkz5",
-    "version": 1,
-    "weekStart": ""
-  }
+    "version": 1
+}
