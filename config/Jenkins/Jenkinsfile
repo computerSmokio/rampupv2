@@ -33,6 +33,7 @@ pipeline{
                             sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${value} sudo ${join_command}"
                         }
                         sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${master_node_ip} kubectl wait pod -n monitoring -l app=grafana --for condition=Ready=True --timeout=-1s"
+                        sh "ssh -o StrictHostKeyChecking=no -i ${ssh_key} ec2-user@${master_node_ip} kubectl wait pod -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx --for condition=Ready=True --timeout=-1s"
                         sh "sleep 10s"
                     }
                 }
